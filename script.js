@@ -1,5 +1,5 @@
 const Gameboard = (() => {
-    const board = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
+    const board = ["X", "X", "X", "X", "X", "O", "O", "O", "O"];
 
     const getBoard = () => board;
 
@@ -12,3 +12,17 @@ const Player = (name, marker) => {
 
 const player1 = Player("Player 1", "X");
 const player2 = Player("Player 2", "O");
+
+function renderBoard() {
+    const board = Gameboard.getBoard();
+    const gameboardDiv = document.querySelector("#gameboard");
+
+    board.forEach((cell) => {
+        const cellDiv = document.createElement("div");
+        cellDiv.classList.add("cell");
+        cellDiv.textContent = cell;
+        gameboardDiv.appendChild(cellDiv);
+    });
+}
+
+renderBoard();

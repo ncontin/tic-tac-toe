@@ -34,9 +34,11 @@ function renderBoard() {
         cellDiv.textContent = cell;
         // gameboardDiv.appendChild(cellDiv);
         cellDiv.addEventListener("click", () => {
-            Gameboard.setMark(index, currentPlayer.marker);
-            switchPlayer();
-            renderBoard();
+            if (board[index] === "") {
+                Gameboard.setMark(index, currentPlayer.marker);
+                switchPlayer();
+                renderBoard();
+            }
         });
         gameboardDiv.appendChild(cellDiv);
     });

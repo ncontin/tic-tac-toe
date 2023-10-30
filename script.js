@@ -22,9 +22,8 @@ const Gameboard = (() => {
         ];
         for (let i = 0; i < winningCombinations.length; i++) {
             const [a, b, c] = winningCombinations[i];
-            let counter = 0;
             if (board[a] && board[a] === board[b] && board[a] === board[c]) {
-                console.log(currentPlayer + "win");
+                console.log(currentPlayer.name + "win");
 
                 return board[a];
             }
@@ -35,12 +34,24 @@ const Gameboard = (() => {
     return { getBoard, setMark, winCheck, resetBoard };
 })();
 
+const playerOneInput = document.getElementById("playerOne");
+const playerTwoInput = document.getElementById("playerTwo");
+const submitPlayersName = document.getElementById("btnPlayersName");
+
 const Player = (name, marker) => {
     return { name, marker };
 };
 
-const player1 = Player("Player 1", "X");
-const player2 = Player("Player 2", "O");
+let player1 = Player("Player1", "X");
+let player2 = Player("Player 2", "O");
+
+const createPlayers = () => {
+    player1 = Player(playerOneInput.value, "X");
+    player2 = Player(playerTwoInput.value, "O");
+    console.log(player1, player2);
+};
+
+submitPlayersName?.addEventListener("click", createPlayers);
 
 let currentPlayer = player1;
 
@@ -51,7 +62,6 @@ function switchPlayer() {
 function renderBoard() {
     const board = Gameboard.getBoard();
     const gameboardDiv = document.querySelector("#gameboard");
-
     // Clear the current board
     gameboardDiv.innerHTML = "";
 
@@ -73,3 +83,12 @@ function renderBoard() {
 }
 
 renderBoard();
+
+function resetGame() {
+    Gameboard.resetBoard();
+    currentPlayer = player1;
+    renderBoard();
+}
+
+const resetBtn = document.getElementById("resetBtn");
+resetBtn?.addEventListener("click", resetGame);

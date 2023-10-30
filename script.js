@@ -42,7 +42,7 @@ const Player = (name, marker) => {
     return { name, marker };
 };
 
-let player1 = Player("Player1", "X");
+let player1 = Player("Player 1", "X");
 let player2 = Player("Player 2", "O");
 
 const createPlayers = () => {
@@ -60,8 +60,11 @@ function switchPlayer() {
 }
 
 function renderBoard() {
+    console.log(currentPlayer);
     const board = Gameboard.getBoard();
     const gameboardDiv = document.querySelector("#gameboard");
+
+    const winner = Gameboard.winCheck();
     // Clear the current board
     gameboardDiv.innerHTML = "";
 
@@ -71,18 +74,16 @@ function renderBoard() {
         cellDiv.textContent = cell;
         // gameboardDiv.appendChild(cellDiv);
         cellDiv.addEventListener("click", () => {
-            if (board[index] === "") {
+            if (!winner && board[index] === "") {
                 Gameboard.setMark(index, currentPlayer.marker);
-                switchPlayer();
                 renderBoard();
                 Gameboard.winCheck();
+                switchPlayer();
             }
         });
         gameboardDiv.appendChild(cellDiv);
     });
 }
-
-renderBoard();
 
 function resetGame() {
     Gameboard.resetBoard();

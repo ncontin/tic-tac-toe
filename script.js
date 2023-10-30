@@ -9,6 +9,8 @@ const Gameboard = (() => {
             board[index] = "";
         }
     };
+    const result = document.querySelector(".result");
+
     const winCheck = () => {
         const winningCombinations = [
             [0, 1, 2],
@@ -24,7 +26,7 @@ const Gameboard = (() => {
             const [a, b, c] = winningCombinations[i];
             if (board[a] && board[a] === board[b] && board[a] === board[c]) {
                 console.log(currentPlayer.name + "win");
-
+                result.textContent = currentPlayer.name + "wins";
                 return board[a];
             }
         }
@@ -79,6 +81,9 @@ function renderBoard() {
                 renderBoard();
                 Gameboard.winCheck();
                 switchPlayer();
+            }
+            if (!winner && !board.includes("")) {
+                console.log("tie");
             }
         });
         gameboardDiv.appendChild(cellDiv);

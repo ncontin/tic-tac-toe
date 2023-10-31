@@ -141,3 +141,7 @@ input {
     font-weight: bold;
     color: #ff4d4d;
 }
+
+.cell:hover {
+    background-color: #82b2e5;
+}

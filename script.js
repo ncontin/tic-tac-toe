@@ -37,6 +37,32 @@ const Gameboard = (() => {
         }
         return null;
     };
+    const resetBtn = document.getElementById("resetBtn");
+    const playersDiv = document.querySelector(".players");
+    const submitPlayersName = document.getElementById("btnPlayersName");
+    const startBtn = document.getElementById("start");
+
+    resetBtn?.addEventListener("click", resetGame);
+
+    startBtn?.addEventListener("click", () => {
+        startBtn.style.display = "none";
+        playersDiv.style.display = "block";
+    });
+
+    submitPlayersName?.addEventListener("click", () => {
+        playersDiv.style.display = "none";
+        resetBtn.style.display = "block";
+        Players.createPlayers();
+        Players.currentPlayer = Players.player1;
+        renderBoard();
+    });
+
+    function resetGame() {
+        Gameboard.resetBoard();
+        Players.currentPlayer = Players.player1;
+        renderBoard();
+        Gameboard.result.textContent = "";
+    }
 
     return { getBoard, setMark, winCheck, resetBoard, result };
 })();
@@ -68,7 +94,9 @@ const Players = (() => {
 })();
 
 function switchPlayer() {
+    const turnDiv = document.querySelector(".turn");
     Players.currentPlayer = Players.currentPlayer === Players.player1 ? Players.player2 : Players.player1;
+    turnDiv.textContent = Players.currentPlayer.name + " turn!";
 }
 
 function renderBoard() {
@@ -77,12 +105,13 @@ function renderBoard() {
     console.log("current player is" + Players.currentPlayer.name);
     console.log(Players.player1, Players.player2);
     const board = Gameboard.getBoard();
-
     const winner = Gameboard.winCheck();
     // Clear the current board
     gameboardDiv.innerHTML = "";
 
     board.forEach((cell, index) => {
+        const turnDiv = document.querySelector(".turn");
+        turnDiv.textContent = Players.currentPlayer.name + " turn!";
         const cellDiv = document.createElement("div");
         cellDiv.classList.add("cell");
         cellDiv.textContent = cell;
@@ -92,6 +121,7 @@ function renderBoard() {
                 Gameboard.setMark(index, Players.currentPlayer.marker);
                 renderBoard();
                 Gameboard.winCheck();
+
                 switchPlayer();
             }
             if (!winner && !board.includes("")) {
@@ -100,31 +130,4 @@ function renderBoard() {
         });
         gameboardDiv.appendChild(cellDiv);
     });
-}
-
-const resetBtn = document.getElementById("resetBtn");
-const playersDiv = document.querySelector(".players");
-const submitPlayersName = document.getElementById("btnPlayersName");
-const startBtn = document.getElementById("start");
-
-resetBtn?.addEventListener("click", resetGame);
-
-startBtn?.addEventListener("click", () => {
-    startBtn.style.display = "none";
-    playersDiv.style.display = "block";
-});
-
-submitPlayersName?.addEventListener("click", () => {
-    playersDiv.style.display = "none";
-    resetBtn.style.display = "block";
-    Players.createPlayers();
-    Players.currentPlayer = Players.player1;
-    renderBoard();
-});
-
-function resetGame() {
-    Gameboard.resetBoard();
-    Players.currentPlayer = Players.player1;
-    renderBoard();
-    Gameboard.result.textContent = "";
 }

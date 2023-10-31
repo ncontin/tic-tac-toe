@@ -25,48 +25,71 @@ const Gameboard = (() => {
         for (let i = 0; i < winningCombinations.length; i++) {
             const [a, b, c] = winningCombinations[i];
             if (board[a] && board[a] === board[b] && board[a] === board[c]) {
-                console.log(currentPlayer.name + "win");
-                result.textContent = currentPlayer.name + "wins";
+                console.log(Players.currentPlayer.name + "win");
+                result.textContent = Players.currentPlayer.name + "wins";
                 return board[a];
             }
         }
         return null;
     };
 
+    function resetGame() {
+        Gameboard.resetBoard();
+        Players.currentPlayer = Players.player1;
+        renderBoard();
+    }
+
+    const resetBtn = document.getElementById("resetBtn");
+    resetBtn?.addEventListener("click", resetGame);
+
+    const playersDiv = document.querySelector(".players");
+
+    const startBtn = document.getElementById("start");
+    startBtn?.addEventListener("click", () => {
+        startBtn.style.display = "none";
+        playersDiv.style.display = "block";
+    });
+
+    const submitPlayersName = document.getElementById("btnPlayersName");
+
+    submitPlayersName?.addEventListener("click", () => {
+        playersDiv.style.display = "none";
+        resetBtn.style.display = "block";
+        Players.createPlayers();
+        Players.currentPlayer = Players.player1;
+        renderBoard();
+    });
+
     return { getBoard, setMark, winCheck, resetBoard };
 })();
 
-const playerOneInput = document.getElementById("playerOne");
-const playerTwoInput = document.getElementById("playerTwo");
-const submitPlayersName = document.getElementById("btnPlayersName");
+const Players = (() => {
+    const playerOneInput = document.getElementById("playerOne");
+    const playerTwoInput = document.getElementById("playerTwo");
+    const Player = (name, marker) => {
+        return { name, marker };
+    };
 
-const Player = (name, marker) => {
-    return { name, marker };
-};
+    let player1 = Player("Player 1", "X");
+    let player2 = Player("Player 2", "O");
 
-let player1 = Player("Player 1", "X");
-let player2 = Player("Player 2", "O");
+    const createPlayers = () => {
+        player1 = Player(playerOneInput.value, "X");
+        player2 = Player(playerTwoInput.value, "O");
+    };
 
-const createPlayers = () => {
-    player1 = Player(playerOneInput.value, "X");
-    player2 = Player(playerTwoInput.value, "O");
-};
+    let currentPlayer = player1;
 
-submitPlayersName?.addEventListener("click", () => {
-    createPlayers();
-    currentPlayer = player1;
-    renderBoard();
-});
-
-let currentPlayer = player1;
+    return { player1, player2, switchPlayer, currentPlayer, createPlayers };
+})();
 
 function switchPlayer() {
-    currentPlayer = currentPlayer === player1 ? player2 : player1;
+    Players.currentPlayer = Players.currentPlayer === Players.player1 ? Players.player2 : Players.player1;
 }
 
 function renderBoard() {
-    console.log("current player is" + currentPlayer.name);
-    console.log(player1, player2);
+    console.log("current player is" + Players.currentPlayer.name);
+    console.log(Players.player1, Players.player2);
     const board = Gameboard.getBoard();
     const gameboardDiv = document.querySelector("#gameboard");
 
@@ -81,7 +104,7 @@ function renderBoard() {
         // gameboardDiv.appendChild(cellDiv);
         cellDiv.addEventListener("click", () => {
             if (!winner && board[index] === "") {
-                Gameboard.setMark(index, currentPlayer.marker);
+                Gameboard.setMark(index, Players.currentPlayer.marker);
                 renderBoard();
                 Gameboard.winCheck();
                 switchPlayer();
@@ -93,19 +116,3 @@ function renderBoard() {
         gameboardDiv.appendChild(cellDiv);
     });
 }
-
-function resetGame() {
-    Gameboard.resetBoard();
-    currentPlayer = player1;
-    renderBoard();
-}
-
-const resetBtn = document.getElementById("resetBtn");
-resetBtn?.addEventListener("click", resetGame);
-
-const startBtn = document.getElementById("start");
-startBtn?.addEventListener("click", () => {
-    const playersDiv = document.querySelector(".players");
-    startBtn.style.display = "none";
-    playersDiv.style.display = "block";
-});

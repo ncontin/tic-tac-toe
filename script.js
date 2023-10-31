@@ -50,10 +50,13 @@ let player2 = Player("Player 2", "O");
 const createPlayers = () => {
     player1 = Player(playerOneInput.value, "X");
     player2 = Player(playerTwoInput.value, "O");
-    console.log(player1, player2);
 };
 
-submitPlayersName?.addEventListener("click", createPlayers);
+submitPlayersName?.addEventListener("click", () => {
+    createPlayers();
+    currentPlayer = player1;
+    renderBoard();
+});
 
 let currentPlayer = player1;
 
@@ -62,7 +65,8 @@ function switchPlayer() {
 }
 
 function renderBoard() {
-    console.log(currentPlayer);
+    console.log("current player is" + currentPlayer.name);
+    console.log(player1, player2);
     const board = Gameboard.getBoard();
     const gameboardDiv = document.querySelector("#gameboard");
 
@@ -98,3 +102,10 @@ function resetGame() {
 
 const resetBtn = document.getElementById("resetBtn");
 resetBtn?.addEventListener("click", resetGame);
+
+const startBtn = document.getElementById("start");
+startBtn?.addEventListener("click", () => {
+    const playersDiv = document.querySelector(".players");
+    startBtn.style.display = "none";
+    playersDiv.style.display = "block";
+});

@@ -4,6 +4,7 @@ window.addEventListener("load", () => {
 });
 
 const Gameboard = (() => {
+    const result = document.querySelector(".result");
     const board = ["", "", "", "", "", "", "", "", ""];
     const getBoard = () => board;
     const setMark = (position, marker) => {
@@ -14,7 +15,6 @@ const Gameboard = (() => {
             board[index] = "";
         }
     };
-    const result = document.querySelector(".result");
 
     const winCheck = () => {
         const winningCombinations = [
@@ -38,7 +38,7 @@ const Gameboard = (() => {
         return null;
     };
 
-    return { getBoard, setMark, winCheck, resetBoard };
+    return { getBoard, setMark, winCheck, resetBoard, result };
 })();
 
 const Players = (() => {
@@ -49,15 +49,15 @@ const Players = (() => {
         return { name, marker };
     };
 
-    let player1;
-    let player2;
+    let player1 = Player("Player 1", "X");
+    let player2 = Player("Player 2", "O");
 
     let currentPlayer = player1;
     const createPlayers = () => {
-        if (playerOneInput.value === "") {
+        if (playerOneInput?.value === "") {
             Players.player1 = Player("Player 1", "X");
         }
-        if (playerTwoInput.value === "") {
+        if (playerTwoInput?.value === "") {
             Players.player2 = Player("Player 2", "O");
         } else {
             Players.player1 = Player(playerOneInput.value, "X");
@@ -95,7 +95,7 @@ function renderBoard() {
                 switchPlayer();
             }
             if (!winner && !board.includes("")) {
-                console.log("tie");
+                Gameboard.result.textContent = "It's a Tie";
             }
         });
         gameboardDiv.appendChild(cellDiv);
@@ -126,4 +126,5 @@ function resetGame() {
     Gameboard.resetBoard();
     Players.currentPlayer = Players.player1;
     renderBoard();
+    Gameboard.result.textContent = "";
 }

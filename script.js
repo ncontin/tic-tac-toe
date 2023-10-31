@@ -1,3 +1,8 @@
+window.addEventListener("load", () => {
+    const preloader = document.getElementById("preloader");
+    preloader.style.display = "none";
+});
+
 const Gameboard = (() => {
     const board = ["", "", "", "", "", "", "", "", ""];
     const getBoard = () => board;
@@ -88,10 +93,11 @@ function switchPlayer() {
 }
 
 function renderBoard() {
+    const gameboardDiv = document.querySelector("#gameboard");
+    gameboardDiv.style.display = "grid";
     console.log("current player is" + Players.currentPlayer.name);
     console.log(Players.player1, Players.player2);
     const board = Gameboard.getBoard();
-    const gameboardDiv = document.querySelector("#gameboard");
 
     const winner = Gameboard.winCheck();
     // Clear the current board

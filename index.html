@@ -1,28 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        <link rel="stylesheet" href="style.css" />
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Tic Tac Toe</title>
-        <link rel="stylesheet" href="style.css" />
     </head>
-    <body class="bg bg-pan-left">
-        <h1>Tic Tac Toe</h1>
-        <div class="players">
-            <div>
-                <label for="playerOne">Name Player 1</label>
-                <input type="text" name="playerOne" id="playerOne"/>
-            </div>
-            <div>
-                <label for="playerTwo">Name Player 2</label>
-                <input type="text" name="playerTwo" id="playerTwo"/>
-            </div>
-            <button type="submit" id="btnPlayersName">Submit</button>
+    <body>
+        <div id="preloader">
+            <h2>Loading...</h2>
         </div>
-        <button id="start">Start</button>
-        <div id="gameboard"></div>
-        <button id="resetBtn">Reset Board</button>
-        <div class="result"></div>
+        <h1>Tic Tac Toe</h1>
+        <div class="game">
+            <div class="players">
+                <div class="playersNameInput">
+                    <div>
+                        <label for="playerOne">Name Player 1</label>
+                        <input type="text" name="playerOne" id="playerOne" />
+                    </div>
+
+                    <div>
+                        <label for="playerTwo">Name Player 2</label>
+                        <input type="text" name="playerTwo" id="playerTwo" />
+                    </div>
+                </div>
+                <button type="submit" id="btnPlayersName">Submit</button>
+            </div>
+            <button id="start">Start</button>
+            <div id="gameboard"></div>
+            <button id="resetBtn">Reset Board</button>
+            <div class="result"></div>
+        </div>
     </body>
     <script src="script.js"></script>
 </html>

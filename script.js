@@ -31,39 +31,12 @@ const Gameboard = (() => {
             const [a, b, c] = winningCombinations[i];
             if (board[a] && board[a] === board[b] && board[a] === board[c]) {
                 console.log(Players.currentPlayer.name + "win");
-                result.textContent = Players.currentPlayer.name + "wins";
+                result.textContent = Players.currentPlayer.name + " wins!";
                 return board[a];
             }
         }
         return null;
     };
-
-    function resetGame() {
-        Gameboard.resetBoard();
-        Players.currentPlayer = Players.player1;
-        renderBoard();
-    }
-
-    const resetBtn = document.getElementById("resetBtn");
-    resetBtn?.addEventListener("click", resetGame);
-
-    const playersDiv = document.querySelector(".players");
-
-    const startBtn = document.getElementById("start");
-    startBtn?.addEventListener("click", () => {
-        startBtn.style.display = "none";
-        playersDiv.style.display = "block";
-    });
-
-    const submitPlayersName = document.getElementById("btnPlayersName");
-
-    submitPlayersName?.addEventListener("click", () => {
-        playersDiv.style.display = "none";
-        resetBtn.style.display = "block";
-        Players.createPlayers();
-        Players.currentPlayer = Players.player1;
-        renderBoard();
-    });
 
     return { getBoard, setMark, winCheck, resetBoard };
 })();
@@ -71,20 +44,26 @@ const Gameboard = (() => {
 const Players = (() => {
     const playerOneInput = document.getElementById("playerOne");
     const playerTwoInput = document.getElementById("playerTwo");
+
     const Player = (name, marker) => {
         return { name, marker };
     };
 
-    let player1 = Player("Player 1", "X");
-    let player2 = Player("Player 2", "O");
-
-    const createPlayers = () => {
-        player1 = Player(playerOneInput.value, "X");
-        player2 = Player(playerTwoInput.value, "O");
-    };
+    let player1;
+    let player2;
 
     let currentPlayer = player1;
-
+    const createPlayers = () => {
+        if (playerOneInput.value === "") {
+            Players.player1 = Player("Player 1", "X");
+        }
+        if (playerTwoInput.value === "") {
+            Players.player2 = Player("Player 2", "O");
+        } else {
+            Players.player1 = Player(playerOneInput.value, "X");
+            Players.player2 = Player(playerTwoInput.value, "O");
+        }
+    };
     return { player1, player2, switchPlayer, currentPlayer, createPlayers };
 })();
 
@@ -121,4 +100,30 @@ function renderBoard() {
         });
         gameboardDiv.appendChild(cellDiv);
     });
+}
+
+const resetBtn = document.getElementById("resetBtn");
+const playersDiv = document.querySelector(".players");
+const submitPlayersName = document.getElementById("btnPlayersName");
+const startBtn = document.getElementById("start");
+
+resetBtn?.addEventListener("click", resetGame);
+
+startBtn?.addEventListener("click", () => {
+    startBtn.style.display = "none";
+    playersDiv.style.display = "block";
+});
+
+submitPlayersName?.addEventListener("click", () => {
+    playersDiv.style.display = "none";
+    resetBtn.style.display = "block";
+    Players.createPlayers();
+    Players.currentPlayer = Players.player1;
+    renderBoard();
+});
+
+function resetGame() {
+    Gameboard.resetBoard();
+    Players.currentPlayer = Players.player1;
+    renderBoard();
 }

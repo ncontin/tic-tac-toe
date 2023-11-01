@@ -6,32 +6,41 @@
         <title>Tic Tac Toe</title>
         <link rel="stylesheet" href="style.css" />
         <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet" />
+        <script src="https://kit.fontawesome.com/63cb09d373.js" crossorigin="anonymous"></script>
     </head>
     <body>
-        <div id="preloader">
-            <h2>Loading...</h2>
-        </div>
-        <h1>Tic Tac Toe</h1>
-        <div class="game">
-            <div class="players">
-                <div class="playersNameInput">
-                    <div class="playersRow">
-                        <label for="playerOne">Player 1 Name:</label>
-                        <input type="text" name="playerOne" id="playerOne" placeholder="Enter name" />
-                    </div>
-                    <div class="playersRow">
-                        <label for="playerTwo">Player 2 Name:</label>
-                        <input type="text" name="playerTwo" id="playerTwo" placeholder="Enter name" />
-                    </div>
-                </div>
-                <button type="button" id="btnPlayersName">Submit</button>
+        <div class="wrapper">
+            <h1>Tic Tac Toe</h1>
+            <div id="preloader">
+                <h2>Loading...</h2>
             </div>
-            <button id="start">Start</button>
-            <div class="turn"></div>
-            <div id="gameboard"></div>
-            <button id="resetBtn">Reset Board</button>
-            <div class="result"></div>
+            <div class="game">
+                <div class="players">
+                    <div class="playersNameInput">
+                        <div class="playersRow">
+                            <label for="playerOne">Player 1 Name:</label>
+                            <input type="text" name="playerOne" id="playerOne" placeholder="Enter name" />
+                        </div>
+                        <div class="playersRow">
+                            <label for="playerTwo">Player 2 Name:</label>
+                            <input type="text" name="playerTwo" id="playerTwo" placeholder="Enter name" />
+                        </div>
+                    </div>
+                    <button type="button" id="btnPlayersName">Submit</button>
+                </div>
+                <button id="start">Start</button>
+                <div class="turn"></div>
+                <div id="gameboard"></div>
+                <button id="resetBtn">Reset Board</button>
+                <div class="result"></div>
+            </div>
+            <div class="footer">
+                Copyright ©2023 ncontin
+                <span
+                    ><a href="https://github.com/ncontin" target="_blank"> <i class="fab fa-github"></i></a
+                ></span>
+            </div>
         </div>
-        <script src="script.js"></script>
     </body>
+    <script src="script.js"></script>
 </html>
